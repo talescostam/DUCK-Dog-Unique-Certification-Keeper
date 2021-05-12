@@ -20,27 +20,24 @@ public class DuckController {
 
     private final DogRepository dogRepository;
 
-    private Optional<Dog> byId;
-
-    public DuckController(DogRepository dogRepository) {
+        public DuckController(DogRepository dogRepository) {
                 this.dogRepository = dogRepository;
     }
 
     @GetMapping(value = "/duck/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dog> getDuck(@PathVariable Long id) {
 
-        this.byId = dogRepository.findById(id);
+        Optional<Dog> dogOptional = dogRepository.findById(id);
 
-        if (byId.isEmpty()) {
+        if (dogOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "dog.not_found_error", null);
         }
 
-        return ResponseEntity.ok(byId.get());
+        return ResponseEntity.ok(dogOptional.get());
     }
 
     @PostMapping(value = "/duck", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dog> saveDuck(@RequestBody Dog newDog){
-        System.out.println(this.byId);
 
         Dog dog = dogRepository.save(newDog);
                 return ResponseEntity.ok(dog);

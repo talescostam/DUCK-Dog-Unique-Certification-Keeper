@@ -1,2 +1,2 @@
 # duck
-CRUD para sistema de cachorros.
+CRUD para sistema de cadastro de cachorros.
